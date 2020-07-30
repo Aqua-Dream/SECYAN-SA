@@ -18,14 +18,14 @@ namespace OT
 		bitset operator^(const bitset& bs)
 		{
 			bitset ret;
-			for (int i = 0; i < bufsize; i++)
+			for (int i = 0; i < bufflen; i++)
 				ret.buffer[i] = this->buffer[i] ^ bs.buffer[i];
 			return ret;
 		}
 		bitset operator&(const bitset& bs)
 		{
 			bitset ret;
-			for (int i = 0; i < bufsize; i++)
+			for (int i = 0; i < bufflen; i++)
 				ret.buffer[i] = this->buffer[i] & bs.buffer[i];
 			return ret;
 		}
@@ -40,14 +40,14 @@ namespace OT
 		static bitset random()
 		{
 			bitset ret;
-			for (int i = 0; i < bufsize; i++)
+			for (int i = 0; i < bufflen; i++)
 				ret.buffer[i] = gRNG.nextUInt64();
 			return ret;
 		}
 		static bitset fromUInt64Arr(uint64_t* buffer)
 		{
 			bitset bs;
-			copy(buffer, buffer + bufsize, bs.buffer);
+			copy(buffer, buffer + bufflen, bs.buffer);
 			return bs;
 		}
 		static bitset fromZZ(const NTL::ZZ& zz)
@@ -75,9 +75,9 @@ namespace OT
 		}
 		void randomOracle(uint64_t seed, uint8_t* out, int outlen) // for OT
 		{
-			uint64_t newbuf[bufsize + 1];
-			copy(buffer, buffer + bufsize, newbuf);
-			newbuf[bufsize] = seed;
+			uint64_t newbuf[bufflen + 1];
+			copy(buffer, buffer + bufflen, newbuf);
+			newbuf[bufflen] = seed;
 			blake3_hasher hasher;
 			blake3_hasher_init(&hasher);
 			blake3_hasher_update(&hasher, newbuf, kappa / 8 + 8);
@@ -86,9 +86,9 @@ namespace OT
 		bool randomOracle(uint64_t seed) // for GMW OT
 		{
 			uint8_t out;
-			uint64_t newbuf[bufsize + 1];
-			copy(buffer, buffer + bufsize, newbuf);
-			newbuf[bufsize] = seed;
+			uint64_t newbuf[bufflen + 1];
+			copy(buffer, buffer + bufflen, newbuf);
+			newbuf[bufflen] = seed;
 			blake3_hasher hasher;
 			blake3_hasher_init(&hasher);
 			blake3_hasher_update(&hasher, newbuf, kappa / 8 + 8);
@@ -96,8 +96,8 @@ namespace OT
 			return out & 1;
 		}
 	private:
-		static const int bufsize = kappa / 64;
-		uint64_t buffer[bufsize];
+		static const int bufflen = kappa / 64;
+		uint64_t buffer[bufflen];
 	};
 
 	static bool init;
@@ -254,7 +254,7 @@ namespace OT
 
 
 	// msg0 is random and msg1==msg0^delta
-	void correlatedOT(bool b, uint8_t* delta, int length, uint8_t* msg0, uint8_t* msgb)
+	void correlatedOT(bool b, const uint8_t* delta, int length, uint8_t* msg0, uint8_t* msgb)
 	{
 		bitset t, q, qs;
 		OT_Common(b, t, q, qs);

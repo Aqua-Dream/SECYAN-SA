@@ -76,7 +76,7 @@ uint64_t OPRF_H(bitset<OPRF_k>& bs)
 
 // We currently assume the inputs and outputs are all 64-bit length
 
-void batch_OPRF(vector<uint32_t> &eleX, vector<vector<uint32_t>>& elesY, vector<uint64_t> &outX, vector<vector<uint64_t>>& outsY)
+void batch_OPRF(vector<uint64_t> &eleX, vector<vector<uint64_t>>& elesY, vector<uint64_t> &outX, vector<vector<uint64_t>>& outsY)
 {
 	// The sender holds elesY while the receiver holds eleX
 	int m = (int)eleX.size();

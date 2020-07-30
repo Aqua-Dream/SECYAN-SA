@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <cstdint>
 static const int kappa = 128;
 static const int sigma = 40;
 static const int ell = 16;
