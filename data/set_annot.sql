@@ -1,15 +1,16 @@
 -- avoid overflow as we are using 16-bit annotation
 -- It requires more work to support annotations for any number of bits
 UPDATE lineitem
-SET 
-    l_extendedprice = l_extendedprice / 10;
+SET l_extendedprice = l_extendedprice / 10;
 
 UPDATE partsupp
-SET 
-    ps_supplycost = ps_supplycost / 10;
+SET ps_supplycost = ps_supplycost / 10;
 
 ALTER TABLE orders
 ADD o_year INT;
+
+UPDATE orders 
+SET o_year = extract(year from o_orderdate);
 
 -- Q3
 ALTER TABLE customer
@@ -18,9 +19,6 @@ ALTER TABLE lineitem
 ADD q3_annot INT DEFAULT 0;
 ALTER TABLE orders
 ADD q3_annot INT DEFAULT 0;
-
-UPDATE orders 
-SET o_year = extract(year from o_orderdate);
 
 UPDATE orders
 SET q3_annot = 1 
