@@ -1,5 +1,5 @@
-# Oblivious Yannakakis Demo
-A local implementation for Oblivious Yannakakis protocol.
+# Secure Yannakakis Stand-Alone Demo
+A stand-alone implementation for Secure Yannakakis protocol. Visit [SECYAN](https://github.com/hkustDB/SECYAN/) for standard version.
 
 ## Requirements
 
